@@ -1,134 +1,309 @@
-<section class="p-5 bg-gray-100">
-    <!-- HEADER -->
+<section class="db-wrap p-4">
+  <!-- TOPBAR -->
+  <div class="flex items-start justify-between mb-0">
     <div>
-        <h1 class="text-2xl font-medium py-1.5">Dashboard</h1>
-        <p class="text-gray-500">Hospital Admin Overview</p>
+      <h1 class="text-2xl text-gray-900" style="font-family: 'Fraunces', serif; font-weight: 500">
+        Dashboard
+      </h1>
+      <p class="text-xs text-gray-400 mt-1 tracking-wide mb-2">Hospital admin overview</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <button class="btn-topbar primary">
+        <i class="fa-solid fa-plus text-xs"></i>
+        New donation
+      </button>
+    </div>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2.5 mb-2">
+    <div class="stat-card bg-white p-4">
+      <div class="flex items-center justify-between mb-3">
+        <div class="w-10 h-10 rounded-[10px] bg-blue-50 flex items-center justify-center">
+          <i class="fa-solid fa-users text-[#185FA5]"></i>
+        </div>
+        <span class="trend-badge trend-up">
+          <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> +12%
+        </span>
+      </div>
+      <p class="stat-num text-[26px] text-gray-900">1,234</p>
+      <p class="text-[11px] text-gray-400 uppercase tracking-wider mt-0.5">Total donors</p>
+      <div class="stat-bar">
+        <div class="stat-bar-fill bg-[#378ADD]" style="width: 72%"></div>
+      </div>
     </div>
 
-    <!-- CONTENT -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-5">
-        <div class="bg-white p-6 rounded-lg shadow">
-            <div class="flex items-center justify-between mb-4">
-                <div class="p-3 bg-blue-100 rounded-lg">
-                    <i class="fa-solid fa-users text-lg text-blue-800"></i>
-                </div>
-                <p class="font-medium text-green-600">+12%</p>
-            </div>
-            <p class="text-2xl py-2 font-bold">1,234</p>
-            <h2 class="text-sm text-gray-500">Total Donors</h2>
+    <div class="stat-card bg-white p-4">
+      <div class="flex items-center justify-between mb-3">
+        <div class="w-10 h-10 rounded-[10px] bg-[#FCEBEB] flex items-center justify-center">
+          <i class="fa-solid fa-droplet text-[#A32D2D]"></i>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow">
-            <div class="flex items-center justify-between mb-4">
-                <div class="p-3 bg-red-100 rounded-lg">
-                    <i class="fa-solid fa-droplet text-lg text-red-800"></i>
-                </div>
-                <p class="font-medium text-green-600">+5%</p>
-            </div>
-            <p class="text-2xl py-2 font-bold">86</p>
-            <h2 class="text-sm text-gray-500">Total Requests</h2>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow">
-            <div class="flex items-center justify-between mb-4">
-                <div class="p-3 bg-green-100 rounded-lg">
-                    <i class="fa-solid fa-suitcase-medical text-lg text-green-800"></i>
-                </div>
-                <p class="font-medium text-red-600">-3%</p>
-            </div>
-            <p class="text-2xl py-2 font-bold">234</p>
-            <h2 class="text-sm text-gray-500">Available Blood Bags</h2>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow">
-            <div class="flex items-center justify-between mb-4">
-                <div class="p-3 bg-fuchsia-100 rounded-lg">
-                    <i class="fa-solid fa-arrow-trend-up text-lg text-fuchsia-800"></i>
-                </div>
-                <p class="font-medium text-green-600">+8%</p>
-            </div>
-            <p class="text-2xl py-2 font-bold">36</p>
-            <h2 class="text-sm text-gray-500">Today's Donations</h2>
-        </div>
-
+        <span class="trend-badge trend-up">
+          <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> +5%
+        </span>
+      </div>
+      <p class="stat-num text-[26px] text-gray-900">86</p>
+      <p class="text-[11px] text-gray-400 uppercase tracking-wider mt-0.5">Total requests</p>
+      <div class="stat-bar">
+        <div class="stat-bar-fill bg-[#A32D2D]" style="width: 40%"></div>
+      </div>
     </div>
 
-
-    <section>
-        <div class="mt-10 flex gap-4">
-            <div class="bg-white p-6 rounded-lg shadow w-1/3">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-circle-exclamation text-lg text-red-400"></i>
-                    <p class="font-medium text-lg">AI Blood Demand</p>
-                </div>
-                <div class="flex flex-col gap-2 border-b border-gray-300 pb-4 mt-4">
-                    <div class="flex items-center justify-between w-full">
-                        <p class="text-sm text-gray-500">Current Status</p>
-                        <span class="px-3 py-1 rounded-xl bg-yellow-100 text-sm font-medium text-yellow-800">Medium</span>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-500">Moderate blood demand expected in next 48 hours</p>
-                    </div>
-                </div>
-                <div class="py-4">
-                    <a routerLink="../predictions" class="w-fit flex">
-                        <button class="font-medium w-fit text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1 cursor-pointer">
-                            View Detailed Predictions
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-                    </a>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow w-2/3">
-                <div>
-                    <h1 class="font-medium text-xl">Quick Actions</h1>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-                    <a routerLink="../scanning">
-                        <div class="p-4 border-2 border-gray-200 rounded-xl flex items-center gap-4 hover:border-red-300 hover:bg-red-50 transition duration-200">
-                            <div class="p-3 rounded-lg bg-red-100">
-                                <i class="fa-solid fa-qrcode text-red-600 text-2xl"></i>
-                            </div>
-                            <div class="flex flex-col py-1">
-                                <p class="font-medium text-[16px]">Scan Donor QR</p>
-                                <p class="text-sm text-gray-500">Process donation</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a routerLink="../users">
-                        <div class="p-4 border-2 border-gray-200 rounded-xl flex items-center gap-4 hover:border-blue-300 hover:bg-blue-50 transition duration-200">
-                            <div class="p-3 rounded-lg bg-blue-100">
-                                <i class="fa-solid fa-users text-blue-600 text-2xl"></i>
-                            </div>
-                            <div class="flex flex-col py-1">
-                                <p class="font-medium text-[16px]">Manage Users</p>
-                                <p class="text-sm text-gray-500">View & manage donors</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a routerLink="../requests">
-                        <div class="p-4 border-2 border-gray-200 rounded-xl flex items-center gap-4 hover:border-purple-300 hover:bg-purple-50 transition duration-200">
-                            <div class="p-3 rounded-lg bg-purple-100">
-                                <i class="fa-solid fa-droplet text-purple-600 text-2xl"></i>
-                            </div>
-                            <div class="flex flex-col py-1">
-                                <p class="font-medium text-[16px]">Blood Requests</p>
-                                <p class="text-sm text-gray-500">View & approve</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a routerLink="../blood-inventory">
-                        <div class="p-4 border-2 border-gray-200 rounded-xl flex items-center gap-4 hover:border-green-300 hover:bg-green-50 transition duration-200">
-                            <div class="p-3 rounded-lg bg-green-100">
-                                <i class="fa-solid fa-warehouse text-green-600 text-2xl"></i>
-                            </div>
-                            <div class="flex flex-col py-1">
-                                <p class="font-medium text-[16px]">Blood Inventory</p>
-                                <p class="text-sm text-gray-500">Manage stock</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+    <div class="stat-card bg-white p-4">
+      <div class="flex items-center justify-between mb-3">
+        <div class="w-10 h-10 rounded-[10px] bg-[#EAF3DE] flex items-center justify-center">
+          <i class="fa-solid fa-suitcase-medical text-[#3B6D11]"></i>
         </div>
-    </section>
+        <span class="trend-badge trend-dn">
+          <i class="fa-solid fa-arrow-trend-down text-[10px]"></i> -3%
+        </span>
+      </div>
+      <p class="stat-num text-[26px] text-gray-900">234</p>
+      <p class="text-[11px] text-gray-400 uppercase tracking-wider mt-0.5">Blood bags</p>
+      <div class="stat-bar">
+        <div class="stat-bar-fill bg-[#639922]" style="width: 55%"></div>
+      </div>
+    </div>
+
+    <div class="stat-card bg-white p-4">
+      <div class="flex items-center justify-between mb-3">
+        <div class="w-10 h-10 rounded-[10px] bg-[#FBEAF0] flex items-center justify-center">
+          <i class="fa-solid fa-heart text-[#993556]"></i>
+        </div>
+        <span class="trend-badge trend-up">
+          <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> +8%
+        </span>
+      </div>
+      <p class="stat-num text-[26px] text-gray-900">36</p>
+      <p class="text-[11px] text-gray-400 uppercase tracking-wider mt-0.5">Today's donations</p>
+      <div class="stat-bar">
+        <div class="stat-bar-fill bg-[#993556]" style="width: 36%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOWER ROW -->
+  <div class="grid grid-cols-5 gap-2.5">
+    <!-- AI panel -->
+    <div class="panel-card col-span-2">
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-sm font-medium text-gray-900">
+          <span class="live-dot"></span>AI blood demand
+        </span>
+        <span class="text-[11px] font-medium px-2 py-1 rounded-md bg-[#faeeda] text-[#633806]">
+          Medium risk
+        </span>
+      </div>
+      <div class="flex justify-between py-2.5 border-b border-gray-100">
+        <span class="text-xs text-gray-400">Demand level</span>
+        <span class="text-xs font-medium text-gray-800">Moderate</span>
+      </div>
+      <div class="flex justify-between py-2.5 border-b border-gray-100">
+        <span class="text-xs text-gray-400">Forecast window</span>
+        <span class="text-xs font-medium text-gray-800">Next 48 hrs</span>
+      </div>
+      <div class="flex justify-between py-2.5">
+        <span class="text-xs text-gray-400">AI confidence</span>
+        <span class="text-xs font-medium text-gray-800">84%</span>
+      </div>
+      <div class="mt-3">
+        <div class="flex justify-between mb-1">
+          <span class="text-[11px] text-gray-400">Demand pressure</span>
+          <span class="text-[11px] font-medium text-[#A32D2D]">60%</span>
+        </div>
+        <div class="stat-bar">
+          <div class="stat-bar-fill bg-[#A32D2D]" style="width: 60%"></div>
+        </div>
+      </div>
+      <a
+        routerLink="../predictions"
+        class="inline-flex items-center gap-1 text-xs font-medium text-[#A32D2D] hover:gap-2 transition-all mt-4 cursor-pointer"
+      >
+        View predictions <i class="fa-solid fa-arrow-right text-[10px]"></i>
+      </a>
+    </div>
+
+    <!-- Quick actions -->
+    <div class="panel-card col-span-3">
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-sm font-medium text-gray-900">Quick actions</span>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <a
+          routerLink="../scanning"
+          class="qa-item qa-red flex items-center gap-3 p-3 cursor-pointer"
+        >
+          <div
+            class="w-9 h-9 rounded-[9px] bg-[#FCEBEB] flex items-center justify-center flex-shrink-0"
+          >
+            <i class="fa-solid fa-qrcode text-[#A32D2D]"></i>
+          </div>
+          <div>
+            <p class="text-[13px] font-medium text-gray-900">Scan donor QR</p>
+            <p class="text-[11px] text-gray-400">Process donation</p>
+          </div>
+        </a>
+
+        <a routerLink="../users" class="qa-item qa-blue flex items-center gap-3 p-3 cursor-pointer">
+          <div
+            class="w-9 h-9 rounded-[9px] bg-[#E6F1FB] flex items-center justify-center flex-shrink-0"
+          >
+            <i class="fa-solid fa-users text-[#185FA5]"></i>
+          </div>
+          <div>
+            <p class="text-[13px] font-medium text-gray-900">Manage users</p>
+            <p class="text-[11px] text-gray-400">View &amp; manage donors</p>
+          </div>
+        </a>
+
+        <a
+          routerLink="../requests"
+          class="qa-item qa-purple flex items-center gap-3 p-3 cursor-pointer"
+        >
+          <div
+            class="w-9 h-9 rounded-[9px] bg-[#EEEDFE] flex items-center justify-center flex-shrink-0"
+          >
+            <i class="fa-solid fa-droplet text-[#534AB7]"></i>
+          </div>
+          <div>
+            <p class="text-[13px] font-medium text-gray-900">Blood requests</p>
+            <p class="text-[11px] text-gray-400">View &amp; approve</p>
+          </div>
+        </a>
+
+        <a
+          routerLink="../blood-inventory"
+          class="qa-item qa-green flex items-center gap-3 p-3 cursor-pointer"
+        >
+          <div
+            class="w-9 h-9 rounded-[9px] bg-[#EAF3DE] flex items-center justify-center flex-shrink-0"
+          >
+            <i class="fa-solid fa-warehouse text-[#3B6D11]"></i>
+          </div>
+          <div>
+            <p class="text-[13px] font-medium text-gray-900">Blood inventory</p>
+            <p class="text-[11px] text-gray-400">Manage stock</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOOD TYPE INVENTORY -->
+  <section class="mt-3">
+    <div class="flex items-center justify-between mb-2.5">
+      <h2 class="text-sm font-medium text-gray-900 flex items-center gap-1.5">
+        <i class="fa-solid fa-droplet text-[#A32D2D] text-xs"></i>
+        Blood type inventory
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-4 lg:grid-cols-8 gap-2">
+      <div
+        class="bt-card bg-white rounded-xl border border-[#ede8e2] p-3.5 text-center hover:-translate-y-1 transition-transform cursor-default"
+      >
+        <p class="bt-type font-['Fraunces'] text-xl font-medium text-gray-900 mb-1">A+</p>
+        <p class="text-sm font-medium text-gray-900">142</p>
+        <p class="text-[10px] text-gray-400 uppercase tracking-wide mb-2">units</p>
+        <div class="h-[3px] bg-[#f0ebe5] rounded-full overflow-hidden">
+          <div class="h-full bg-[#378ADD] rounded-full" style="width: 85%"></div>
+        </div>
+      </div>
+
+      <!-- LOW STOCK — red border + warning -->
+      <div
+        class="bt-card bg-[#fff8f8] rounded-xl border border-[#F09595] p-3.5 text-center hover:-translate-y-1 transition-transform cursor-default"
+      >
+        <p class="bt-type font-['Fraunces'] text-xl font-medium text-[#A32D2D] mb-1">A−</p>
+        <p class="text-sm font-medium text-gray-900">18</p>
+        <p class="text-[10px] text-gray-400 uppercase tracking-wide mb-2">units</p>
+        <div class="h-[3px] bg-[#f0ebe5] rounded-full overflow-hidden">
+          <div class="h-full bg-[#E24B4A] rounded-full" style="width: 18%"></div>
+        </div>
+        <p
+          class="text-[10px] text-[#A32D2D] font-medium mt-1.5 flex items-center justify-center gap-0.5"
+        >
+          <i class="fa-solid fa-triangle-exclamation text-[9px]"></i> Low
+        </p>
+      </div>
+
+      <div
+        class="bt-card bg-white rounded-xl border border-[#ede8e2] p-3.5 text-center hover:-translate-y-1 transition-transform cursor-default"
+      >
+        <p class="font-['Fraunces'] text-xl font-medium text-gray-900 mb-1">B+</p>
+        <p class="text-sm font-medium text-gray-900">97</p>
+        <p class="text-[10px] text-gray-400 uppercase tracking-wide mb-2">units</p>
+        <div class="h-[3px] bg-[#f0ebe5] rounded-full overflow-hidden">
+          <div class="h-full bg-[#378ADD] rounded-full" style="width: 58%"></div>
+        </div>
+      </div>
+
+      <div
+        class="bt-card bg-[#fff8f8] rounded-xl border border-[#F09595] p-3.5 text-center hover:-translate-y-1 transition-transform cursor-default"
+      >
+        <p class="font-['Fraunces'] text-xl font-medium text-[#A32D2D] mb-1">B−</p>
+        <p class="text-sm font-medium text-gray-900">12</p>
+        <p class="text-[10px] text-gray-400 uppercase tracking-wide mb-2">units</p>
+        <div class="h-[3px] bg-[#f0ebe5] rounded-full overflow-hidden">
+          <div class="h-full bg-[#E24B4A] rounded-full" style="width: 12%"></div>
+        </div>
+        <p
+          class="text-[10px] text-[#A32D2D] font-medium mt-1.5 flex items-center justify-center gap-0.5"
+        >
+          <i class="fa-solid fa-triangle-exclamation text-[9px]"></i> Low
+        </p>
+      </div>
+
+      <div
+        class="bt-card bg-white rounded-xl border border-[#ede8e2] p-3.5 text-center hover:-translate-y-1 transition-transform cursor-default"
+      >
+        <p class="font-['Fraunces'] text-xl font-medium text-gray-900 mb-1">O+</p>
+        <p class="text-sm font-medium text-gray-900">203</p>
+        <p class="text-[10px] text-gray-400 uppercase tracking-wide mb-2">units</p>
+        <div class="h-[3px] bg-[#f0ebe5] rounded-full overflow-hidden">
+          <div class="h-full bg-[#639922] rounded-full" style="width: 100%"></div>
+        </div>
+      </div>
+
+      <!-- CRITICAL -->
+      <div
+        class="bt-card bg-[#fff8f8] rounded-xl border border-[#F09595] p-3.5 text-center hover:-translate-y-1 transition-transform cursor-default"
+      >
+        <p class="font-['Fraunces'] text-xl font-medium text-[#A32D2D] mb-1">O−</p>
+        <p class="text-sm font-medium text-gray-900">9</p>
+        <p class="text-[10px] text-gray-400 uppercase tracking-wide mb-2">units</p>
+        <div class="h-[3px] bg-[#f0ebe5] rounded-full overflow-hidden">
+          <div class="h-full bg-[#E24B4A] rounded-full" style="width: 9%"></div>
+        </div>
+        <p
+          class="text-[10px] text-[#A32D2D] font-medium mt-1.5 flex items-center justify-center gap-0.5"
+        >
+          <i class="fa-solid fa-triangle-exclamation text-[9px]"></i> Critical
+        </p>
+      </div>
+
+      <div
+        class="bt-card bg-white rounded-xl border border-[#ede8e2] p-3.5 text-center hover:-translate-y-1 transition-transform cursor-default"
+      >
+        <p class="font-['Fraunces'] text-xl font-medium text-gray-900 mb-1">AB+</p>
+        <p class="text-sm font-medium text-gray-900">54</p>
+        <p class="text-[10px] text-gray-400 uppercase tracking-wide mb-2">units</p>
+        <div class="h-[3px] bg-[#f0ebe5] rounded-full overflow-hidden">
+          <div class="h-full bg-[#534AB7] rounded-full" style="width: 32%"></div>
+        </div>
+      </div>
+
+      <div
+        class="bt-card bg-white rounded-xl border border-[#ede8e2] p-3.5 text-center hover:-translate-y-1 transition-transform cursor-default"
+      >
+        <p class="font-['Fraunces'] text-xl font-medium text-gray-900 mb-1">AB−</p>
+        <p class="text-sm font-medium text-gray-900">31</p>
+        <p class="text-[10px] text-gray-400 uppercase tracking-wide mb-2">units</p>
+        <div class="h-[3px] bg-[#f0ebe5] rounded-full overflow-hidden">
+          <div class="h-full bg-[#534AB7] rounded-full" style="width: 19%"></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 </section>
