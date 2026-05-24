@@ -1,56 +1,80 @@
-<section class="p-5 bg-gray-100">
+<section class="p-5 bg-[#f4f1ed]">
     <!-- HEADER -->
-    <div class="flex items-center justify-between">
-        <div>
-            <h1 class="text-2xl font-medium py-1.5">AI Blood Demand Predictions</h1>
-            <p class="text-gray-500">AI powered blood demand forecasting and analysis</p>
-        </div>
+    <div class="flex items-start justify-between mb-5">
+      <div>
+        <h1 class="page-title">AI blood demand predictions</h1>
+        <p class="text-xs text-gray-400 mt-1">AI powered blood demand forecasting and analysis</p>
+      </div>
     </div>
-
-    <!-- CONTENT -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-5">
-        <div class="bg-white p-6 rounded-lg shadow border border-gray-300">
-            <div class="flex items-center justify-between ">
-                <h2 class="text-lg font-medium text-gray-500">Current Status</h2>
-                <i class="fa-solid fa-arrow-trend-up text-xl text-amber-700"></i>
-            </div>
-            <h2 class="text-4xl font-bold py-3">Medium</h2>
-            <p class="text-sm text-gray-500">Demand Level</p>
+  
+    <!-- STAT CARDS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 mb-3">
+  
+      <div class="stat-card">
+        <div class="flex items-center justify-between mb-3">
+          <div class="stat-icon" style="background:#FAEEDA">
+            <i class="fa-solid fa-arrow-trend-up" style="color:#854F0B"></i>
+          </div>
+          <span class="text-xs font-medium px-2 py-1 rounded-md"
+                style="background:#faeeda;color:#633806">Medium</span>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow border border-gray-300">
-            <div class="flex items-center justify-between ">
-                <h2 class="text-lg font-medium text-gray-500">Next 7 Days</h2>
-                <i class="fa-solid fa-calendar text-xl text-blue-700"></i>
-            </div>
-            <h2 class="text-4xl font-bold py-3">485</h2>
-            <p class="text-sm text-gray-500">Expected units needs</p>
+        <p class="stat-num">Medium</p>
+        <p class="stat-label">Current status</p>
+        <div class="stat-bar">
+          <div class="stat-bar-fill" style="width:55%;background:#BA7517"></div>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow border border-gray-300">
-            <div class="flex items-center justify-between ">
-                <h2 class="text-lg font-medium text-gray-500">Prediction Accuracy</h2>
-                <i class="fa-solid fa-circle-exclamation text-xl text-green-700"></i>
-            </div>
-            <h2 class="text-4xl font-bold py-3">98%</h2>
-            <p class="text-sm text-gray-500">Based on historical data and AI models</p>
+      </div>
+  
+      <div class="stat-card">
+        <div class="flex items-center justify-between mb-3">
+          <div class="stat-icon" style="background:#E6F1FB">
+            <i class="fa-solid fa-calendar" style="color:#185FA5"></i>
+          </div>
+          <span class="text-xs text-gray-400">next 7 days</span>
         </div>
-
+        <p class="stat-num">485</p>
+        <p class="stat-label">Expected units needed</p>
+        <div class="stat-bar">
+          <div class="stat-bar-fill" style="width:68%;background:#378ADD"></div>
+        </div>
+      </div>
+  
+      <div class="stat-card">
+        <div class="flex items-center justify-between mb-3">
+          <div class="stat-icon" style="background:#EAF3DE">
+            <i class="fa-solid fa-circle-exclamation" style="color:#3B6D11"></i>
+          </div>
+          <span class="text-xs font-medium px-2 py-1 rounded-md"
+                style="background:#eaf3de;color:#27500A">High</span>
+        </div>
+        <p class="stat-num">98%</p>
+        <p class="stat-label">Prediction accuracy</p>
+        <div class="stat-bar">
+          <div class="stat-bar-fill" style="width:98%;background:#639922"></div>
+        </div>
+      </div>
+  
     </div>
-
-    <!-- CHARTS -->
-
-        <!-- LINE CHART -->
-        <div class="bg-white mt-7 p-4 rounded-lg shadow border border-gray-300">
-            <h1 class="text-2xl font-medium p-1">Blood Usage Over Time</h1>
-            <div class="card p-4 ml-8">
-                <p-chart type="line" [data]="data" [options]="options" class="h-100" />
-            </div>
-        </div>
-
-        <!-- BAR CHART -->
-        <div class="bg-white mt-7 p-4 rounded-lg shadow border border-gray-300">
-            <h1 class="text-2xl font-medium p-1">7-Day Demand Forecast</h1>
-            <div class="card p-4 ml-8">
-                <p-chart type="bar" [data]="barChart_data" [options]="barChart_options" class="h-120" />
-            </div>
-        </div>
-</section>
+  
+    <!-- LINE CHART -->
+    <div class="bg-white rounded-[14px] border border-[#ede8e2] p-5 mb-3">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-sm font-medium text-gray-900">Blood usage over time</h2>
+        <span class="text-xs text-gray-400">Last 30 days</span>
+      </div>
+      <div class="card p-4">
+        <p-chart type="line" [data]="data" [options]="options" class="h-100" />
+      </div>
+    </div>
+  
+    <!-- BAR CHART -->
+    <div class="bg-white rounded-[14px] border border-[#ede8e2] p-5">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-sm font-medium text-gray-900">7-day demand forecast</h2>
+        <span class="text-xs text-gray-400">Next 7 days</span>
+      </div>
+      <div class="card p-4">
+        <p-chart type="bar" [data]="barChart_data" [options]="barChart_options" class="h-120" />
+      </div>
+    </div>
+  </section>

@@ -1,109 +1,100 @@
-import { Component , inject} from '@angular/core';
-import { 
-  FormsModule, 
-  FormBuilder,  
-  ReactiveFormsModule, 
-  Validators, 
-  FormGroup, 
-  FormControl } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { RouterModule } from '@angular/router';
-import { Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import {
+  FormsModule,
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
+import { AuthService } from '../../../../Core/Services/auth';
+import { LoginRequest } from '../../../../Core/interface/api-models';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
     CommonModule,
     InputTextModule,
-    ToastModule,],
+    ToastModule,
+  ],
+  providers: [MessageService],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class Login {
-
-    // constructor(private auth: AuthService,private router: Router){}
-
-    // simuolation untl the API is ready, will delete this line later
-    constructor(private router: Router){} 
-
-
-  // errorMassage:string = '';
-  passwordVisibility: boolean = false;
-  // messageService = inject(MessageService);
-
+  private authService = inject(AuthService);
+  private router = inject(Router);
   private formBuilder = inject(FormBuilder);
+  private messageService = inject(MessageService);
+
+  passwordVisibility = false;
+  isLoading = false;
 
   loginForm = this.formBuilder.group({
-    userName: ['', Validators.required],
+    userName: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
-  })
+  });
 
-  onSubmit(): void{ 
+  onSubmit(): void {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
 
-    // simulation untl the API is ready, will delete this line later
-    this.router.navigate(['/dashboard']);
+    this.isLoading = true;
 
-    // if (this.loginForm.valid) {
-    //   // send user name and password to Api
-    //   this.auth.login(this.loginForm.value).subscribe({
-    //     next: (res)=>{
-    //       // if success is true 
-    //       if (res.success) {
-    //         console.log(this.auth.isAdmin());
-    //         this.auth.storeToken(res.token);  // save his token in localStorage
-            
-    //         // check user is admin or not 
-    //         if(this.auth.isAdmin()){
-    //           this.loginForm.reset();  // reset the form
-    //           this.router.navigate(['/dashboard']);  // redirect to dashboard
-    //           // display alert 
-    //           this.messageService.add({
-    //             severity: 'success',
-    //             summary: 'Success',
-    //             detail: 'Login successfully!',
-    //           });
-    //         }
-    //         // if the user are not admin
-    //         else{
-    //           this.loginForm.reset();
-    //           this.errorMassage = 'You are not admin';  
-    //         }
+    const credentials: LoginRequest = {
+      Email: this.loginForm.value.userName!,
+      Password: this.loginForm.value.password!,
+    };
 
-    //       }
-          
-    //     },
-    //     error: (err) => {
-    //       this.loginForm.reset();
-    //       this.errorMassage = 'Check your Username or Password';        
-    //     },
-    //   });
-    // }else{
-    //   this.validateAllFormFileds(this.loginForm);
-    // }
+    this.authService.login(credentials).subscribe({
+      next: () => {
+        this.isLoading = false;
+        
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Welcome',
+          detail: 'Logged in successfully',
+          life: 2000,
+        });
+
+        this.router.navigate(['/dashboard/home']);
+      },
+      error: (err) => {
+        this.isLoading = false;
+        const detail =
+          err?.error?.message ?? 'Invalid email or password. Please try again.';
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Login Failed',
+          detail,
+          life: 4000,
+        });
+      },
+    });
   }
 
-  // private validateAllFormFileds(formGroup: FormGroup){
-  //   Object.keys(formGroup.controls).forEach(filed =>{
-  //     const control = formGroup.get(filed);
-  //     if(control instanceof FormControl){
-  //       control.markAsDirty({ onlySelf: true });
-  //     } else if(control instanceof FormGroup){
-  //       this.validateAllFormFileds(control);
-  //     }
-  //   })
-  // }
-  
   togglePasswordVisibility(): void {
-    
     this.passwordVisibility = !this.passwordVisibility;
-    
-
   }
 
+  // Convenience getters for template validation
+  get emailInvalid(): boolean {
+    const ctrl = this.loginForm.get('userName');
+    return !!(ctrl?.invalid && ctrl?.touched);
+  }
+
+  get passwordInvalid(): boolean {
+    const ctrl = this.loginForm.get('password');
+    return !!(ctrl?.invalid && ctrl?.touched);
+  }
 }

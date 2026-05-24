@@ -1,74 +1,82 @@
-<section class="p-5 bg-gray-100">
+<section class="p-5 bg-[#f4f1ed] h-screen flex flex-col items-fit-start">
     <!-- HEADER -->
-    <div class="flex items-center justify-between">
-        <div>
-            <h1 class="text-2xl font-medium py-1.5">Collect Blood Data</h1>
-            <p class="text-gray-500">View and analyze blood donation records</p>
-        </div>
+    <div class="flex items-start justify-between mb-5">
+      <div>
+        <h1 class="page-title">Collect blood data</h1>
+        <p class="text-xs text-gray-400 mt-1">View and analyze blood donation records</p>
+      </div>
     </div>
-
-    <!-- CONTENT -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-5">
-        <div class="bg-white p-6 rounded-lg shadow border border-gray-300">
-            <h2 class="text-lg font-medium text-gray-500">Total Donations</h2>
-            <p class="text-2xl py-2 font-bold">10</p>
+  
+    <!-- STAT CARDS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 mb-3">
+  
+      <div class="stat-card">
+        <div class="flex items-center justify-between mb-3">
+          <div class="stat-icon" style="background:#FCEBEB">
+            <i class="fa-solid fa-droplet" style="color:#A32D2D"></i>
+          </div>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow border border-gray-300">
-            <h2 class="text-lg font-medium text-gray-500">Total Volume</h2>
-            <p class="text-2xl py-2 font-bold">3250 ml</p>
+        <p class="stat-num">{{ totalDonations }}</p>
+        <p class="stat-label">Total donations</p>
+        <div class="stat-bar">
+          <div class="stat-bar-fill" style="width:30%;background:#A32D2D"></div>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow border border-gray-300">
-            <h2 class="text-lg font-medium text-gray-500">Average per Donation</h2>
-            <p class="text-2xl py-2 font-bold">464 ml</p>
+      </div>
+  
+      <div class="stat-card">
+        <div class="flex items-center justify-between mb-3">
+          <div class="stat-icon" style="background:#E6F1FB">
+            <i class="fa-solid fa-flask" style="color:#185FA5"></i>
+          </div>
         </div>
+        <p class="stat-num">{{ totalQuantity | number }} <span class="text-sm text-gray-400 font-normal">ml</span></p>
+        <p class="stat-label">Total volume</p>
+        <div class="stat-bar">
+          <div class="stat-bar-fill" style="width:65%;background:#378ADD"></div>
+        </div>
+      </div>
+  
+      <div class="stat-card">
+        <div class="flex items-center justify-between mb-3">
+          <div class="stat-icon" style="background:#EAF3DE">
+            <i class="fa-solid fa-chart-bar" style="color:#3B6D11"></i>
+          </div>
+        </div>
+        <p class="stat-num">{{ averagePerDonation | number }} <span class="text-sm text-gray-400 font-normal">ml</span></p>
+        <p class="stat-label">Average per donation</p>
+        <div class="stat-bar">
+          <div class="stat-bar-fill" style="width:46%;background:#639922"></div>
+        </div>
+      </div>
+  
     </div>
-
-
+  
     <!-- TABLE -->
-    <div class="mt-8 border border-gray-300 rounded-lg bg-white">
-        <p-table [value]="blood_data" [tableStyle]="{ 'min-width': '60rem' }" class="bg-white"
-            [paginator]="true" [rows]="6" [rowsPerPageOptions]="[5, 10, 20]">
-            <ng-template #header>
-                <tr class="bg-gray-200">
-                    <th>Donation ID</th>
-                    <th>Donor ID</th>
-                    <th>Donor Name</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Blood Type</th>
-                    <th>Quantity (ml)</th>
-                </tr>
-            </ng-template>
-            <ng-template class="table-content" #body let-blood>
-                <tr class="bg-white! hover:bg-gray-100! transition! duration-300 ease-in-out cursor-pointer">
-                    <td class="text-gray-800! font-bold">
-                       R- {{ blood.donationId }}
-                    </td>
-                    <td class="text-gray-600! font-medium">
-                        {{ blood.donorId }}
-                    </td>
-                    <td class="text-gray-600! font-medium">
-                        {{ blood.donorName }}
-                    </td>
-                    <td class="text-gray-600! font-medium">
-                        {{ blood.date }}
-                    </td>
-                    <td class="text-gray-600! font-medium">
-                        {{ blood.time }}
-                    </td>
-                    <td class="text-red-800! font-medium">
-                        <div class=" flex items-center justify-center">
-                            <div class="bg-red-400/20 py-2 px-3 text-sm rounded-xl">
-                                {{ blood.bloodType }}
-                            </div>
-                        </div>
-                    </td>
-                    <td class="text-gray-600! font-medium">
-                        {{ blood.quantity }}
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
+    <div class="data-table">
+      <p-table [value]="blood_data" [tableStyle]="{'min-width':'60rem'}"
+               [paginator]="true" [rows]="6" [rowsPerPageOptions]="[5,10,20]">
+        <ng-template #header>
+          <tr>
+            <th>Donation ID</th>
+            <th>Donor ID</th>
+            <th>Donor name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Blood type</th>
+            <th>Quantity (ml)</th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-blood>
+          <tr class="cursor-pointer bg-gray-300">
+            <td class="font-medium text-gray-900!">R-{{ blood.donationId }}</td>
+            <td class="text-gray-400">{{ blood.donorId }}</td>
+            <td class="text-gray-700">{{ blood.donorName }}</td>
+            <td class="text-gray-400">{{ blood.date }}</td>
+            <td class="text-gray-400">{{ blood.time }}</td>
+            <td><span class="bt-pill">{{ blood.bloodType }}</span></td>
+            <td class="text-gray-400">{{ blood.quantity }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
-
-</section>
+  </section>
