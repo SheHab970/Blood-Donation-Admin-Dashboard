@@ -1,4 +1,4 @@
-// ─── Auth ────────────────────────────────────────────────────────────────────
+// ─── Auth ─────────────────────────────────────────────────────────────────────
 
 export interface LoginRequest {
   Email: string;
@@ -6,17 +6,27 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  accessToken: string;
+  accessToken:  string;
   refreshToken: string;
-  expiresIn?: number;
+  expiresIn:    number;
   user: {
-    id: string;
-    email: string;
+    id:       string;
+    email:    string;
     fullName: string;
-    role: string;
+    role:     string;
   };
+  message: string | null;
 }
-// The API returns a JWT — all claims are decoded from it
+
+export interface RefreshTokenRequest {
+  refreshToken: string;
+}
+
+export interface RefreshTokenResponse {
+  accessToken:   string;
+  refreshToken?: string;
+  expiresIn?:    number;
+}
 
 // ─── Pagination ───────────────────────────────────────────────────────────────
 
@@ -31,16 +41,15 @@ export interface DonationsStatistics {
 }
 
 export interface PaginatedResponse<T> {
-  statistics: DonationsStatistics; // ✅ new
+  statistics: DonationsStatistics;
   donations: {
-    // ✅ nested object, not root level
     currentPage: number;
     pageSize: number;
     totalCount: number;
     totalPages: number;
     hasPrevious: boolean;
     hasNext: boolean;
-    data: T[]; // ✅ actual items array
+    data: T[];
   };
 }
 
@@ -71,7 +80,7 @@ export interface UpdateHospitalRequest {
 // ─── Hospital Admin ───────────────────────────────────────────────────────────
 
 export interface HospitalAdmin {
-  id: string; // UUID
+  id: string;
   fullName: string;
   email: string;
   phoneNumber: string;
@@ -106,7 +115,7 @@ export interface BloodRequest {
   quantity: number;
   status: status;
   urgency: UrgencyLevel;
-  date: string; // ISO date string
+  date: string;
   hospitalName?: string;
 }
 
@@ -122,11 +131,6 @@ export interface Donation {
   quantity: number;
   status: status;
   hospitalName?: string;
-}
-
-export interface DonationsStatistics {
-  totalDonations: number;
-  totalQuantity: number;
 }
 
 // ─── Inventory ────────────────────────────────────────────────────────────────
@@ -145,13 +149,23 @@ export interface BloodInventoryItem {
 export type UserStatus = 'ACTIVE' | 'INACTIVE';
 
 export interface User {
-  id: number;
-  name: string;
+  id: string;
+  fullName: string;
+  phoneNumber: string;
   bloodType: string;
-  phone: string;
-  lastDonation: string;
   points: number;
-  status: UserStatus;
+  lastDonation: string;
+  status: string;
+}
+
+export interface UsersResponse {
+  currentPage: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  hasPrevious: boolean;
+  hasNext: boolean;
+  data: User[];
 }
 
 // ─── Rewards ──────────────────────────────────────────────────────────────────
@@ -179,7 +193,7 @@ export interface UpdateRewardRequest {
 
 export interface QrTokenResponse {
   qrToken: string;
-  qrImageBase64?: string; // some APIs return base64 image
+  qrImageBase64?: string;
 }
 
 export interface QrScanRequest {

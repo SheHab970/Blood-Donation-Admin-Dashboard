@@ -1,56 +1,131 @@
-<section class="p-5 bg-gray-100">
-    <div class="flex flex-col items-center justify-center my-5 gap-5">
-        <!-- HEADER -->
-        <div class="flex flex-col gap-2 items-center">
-            <h1 class="text-black text-2xl font-bold">Scan Donor QR Code</h1>
-            <p class="text-gray-600">Scan donor's QR code to process donation</p>
-        </div>
-        <!-- SCAN AREA -->
-        <div class="bg-white rounded-xl py-20 flex gap-1.5 items-center flex-col p-4 shadow-lg border-2 border-gray-300 w-1/2">
-            <!-- Loading -->
-             @if (isLoading) {
-                 <div class="flex gap-1 items-center">
-                     <p class="text-gray-500 animate-pulse">Opening camera...</p>
-                     <span class="loader"></span>
-                 </div>
-             }
+<section class="p-5 bg-[#f4f1ed] flex flex-col items-center">
 
-            <!-- Error -->
-             @if (hasError) {
-                 <div class="text-center text-red-500">
-                     {{ errorMessage }}
-                 </div>
+  <!-- HEADER -->
+  <div class="w-full max-w-[500px] mt-6 mb-6 text-center">
+    <h1 class="page-title">QR scanner</h1>
+    <p class="text-xs text-gray-400 mt-1">Scan donor or recipient QR codes to process donations</p>
+  </div>
 
-             }
+  <!-- TOGGLE -->
+  <div class="flex bg-white border border-[#ede8e2] rounded-xl p-1 gap-1
+              w-full max-w-[500px] mb-5">
+    <button
+      (click)="setMode('donor')"
+      [class]="mode === 'donor'
+        ? 'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-[9px] text-sm font-medium bg-[#A32D2D] text-white transition-all duration-200 border-none cursor-pointer'
+        : 'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-[9px] text-sm font-medium bg-transparent text-gray-400 transition-all duration-200 border-none cursor-pointer hover:text-gray-600'">
+      <i class="fa-solid fa-droplet text-xs"></i>
+      Donor scan
+    </button>
+    <button
+      (click)="setMode('recipient')"
+      [class]="mode === 'recipient'
+        ? 'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-[9px] text-sm font-medium bg-[#185FA5] text-white transition-all duration-200 border-none cursor-pointer'
+        : 'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-[9px] text-sm font-medium bg-transparent text-gray-400 transition-all duration-200 border-none cursor-pointer hover:text-gray-600'">
+      <i class="fa-solid fa-user text-xs"></i>
+      Recipient scan
+    </button>
+  </div>
 
-            <!-- SCANNER -->
-            <div class="w-80 h-60 border-dashed border-red-600 border-2 rounded-lg overflow-hidden my-8">
-                @if (isLoading) {
-                    <img
-                        src="assets/images/camera.png" 
-                        alt="camera-img"
-                        class="object-cover w-full h-60"
-                    >
+  <!-- CARD -->
+  <div class="bg-white rounded-[16px] border border-[#ede8e2] w-full max-w-[500px]
+              overflow-hidden hover:shadow-[0_8px_28px_rgba(0,0,0,0.07)] transition-shadow duration-200">
 
-                }
-                <!-- <zxing-scanner
-                    [start]="true"
-                    [formats]="['QR_CODE']"
-                    (scanSuccess)="onScanSuccess($event)"
-                    (scanError)="onScanError($event)"
-                    (scanFailure)="onScanFailure($event)"
-                ></zxing-scanner> -->
-
-                <zxing-scanner
-                    
-                    (camerasFound)="onCamerasFound()"
-                    (scanSuccess)="onScanSuccess($event)"
-                    (scanError)="onScanError($event)"
-                    class="w-full"
-                ></zxing-scanner>
-            </div>
-            <h1 class="text-lg font-medium text-black">Ready to Scan</h1>
-            <p class="text-gray-600 text-sm">Position the donor's QR code within the camera frame</p>
-        </div>
+    <!-- Card header -->
+    <div class="flex items-center gap-3 px-5 py-4 border-b border-[#f0ebe5]">
+      <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 text-lg transition-all duration-200"
+           [style.background]="mode === 'donor' ? '#FCEBEB' : '#E6F1FB'">
+        <i [class]="mode === 'donor' ? 'fa-solid fa-droplet' : 'fa-solid fa-user'"
+           [style.color]="mode === 'donor' ? '#A32D2D' : '#185FA5'"></i>
+      </div>
+      <div>
+        <p class="text-sm font-medium text-gray-900">
+          {{ mode === 'donor' ? 'Donor QR scan' : 'Recipient QR scan' }}
+        </p>
+        <p class="text-xs text-gray-400">
+          {{ mode === 'donor' ? 'Scan to register a blood donation' : 'Scan to verify a blood request' }}
+        </p>
+      </div>
+      <div class="ml-auto flex items-center gap-1.5 text-[10px] font-medium px-2.5 py-1 rounded-md transition-all duration-200"
+           [style.background]="mode === 'donor' ? '#FCEBEB' : '#E6F1FB'"
+           [style.color]="mode === 'donor' ? '#791F1F' : '#0C447C'">
+        <span class="w-1.5 h-1.5 rounded-full animate-pulse"
+              [style.background]="mode === 'donor' ? '#A32D2D' : '#185FA5'"></span>
+        Ready
+      </div>
     </div>
+
+    <!-- Card body -->
+    <div class="p-5">
+
+      <!-- QR input -->
+      <p class="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-2">QR code</p>
+      <div class="flex items-center border-[1.5px] rounded-[10px] px-3.5 transition-all duration-200"
+           [style.background]="mode === 'donor' ? '#fdf9f7' : '#f5f9ff'"
+           [ngClass]="mode === 'donor'
+             ? 'border-[#ede8e2] focus-within:border-[#A32D2D]'
+             : 'border-[#ede8e2] focus-within:border-[#185FA5]'">
+        <i [class]="mode === 'donor' ? 'fa-solid fa-qrcode' : 'fa-solid fa-scan'"
+           class="text-gray-300 text-base flex-shrink-0"></i>
+        <input
+          #qrInput
+          type="text"
+          [(ngModel)]="qrCode"
+          (keyup.enter)="onSubmit()"
+          [placeholder]="mode === 'donor' ? 'Scan or type QR code here...' : 'Scan or type recipient QR code...'"
+          class="w-full py-3 px-2.5 text-sm text-gray-900 bg-transparent outline-none placeholder-gray-300"
+        >
+      </div>
+      <p class="text-xs text-gray-400 mt-2 flex items-center gap-1.5">
+        <i class="fa-solid fa-circle-info text-xs"></i>
+        Place cursor here then scan with the hardware scanner
+      </p>
+
+      <hr class="border-[#f0ebe5] my-4">
+
+      <!-- Last scan info -->
+      <div class="flex items-center justify-between py-2.5 border-b border-[#f9f7f5]">
+        <span class="text-xs text-gray-400 flex items-center gap-1.5">
+          <i class="fa-solid fa-user text-xs"></i> Last scanned
+        </span>
+        <span class="text-xs font-medium text-gray-800">{{ lastScanned }}</span>
+      </div>
+
+      <div class="flex items-center justify-between py-2.5 border-b border-[#f9f7f5]">
+        <span class="text-xs text-gray-400 flex items-center gap-1.5">
+          <i class="fa-solid fa-droplet text-xs"></i>
+          {{ mode === 'donor' ? 'Blood type' : 'Requested type' }}
+        </span>
+        <span class="text-xs font-medium"
+              [style.color]="mode === 'donor' ? '#A32D2D' : '#185FA5'">
+          {{ lastBloodType }}
+        </span>
+      </div>
+
+      <div class="flex items-center justify-between py-2.5">
+        <span class="text-xs text-gray-400 flex items-center gap-1.5">
+          <i class="fa-solid fa-circle-check text-xs"></i> Status
+        </span>
+        <span class="text-[10px] font-medium px-2.5 py-1 rounded-md"
+              [style.background]="lastStatusBg"
+              [style.color]="lastStatusColor">
+          {{ lastStatus }}
+        </span>
+      </div>
+
+      <!-- Submit button -->
+      <button
+        (click)="onSubmit()"
+        class="w-full mt-4 py-3 rounded-[10px] text-white text-sm font-medium
+               flex items-center justify-center gap-2 border-none cursor-pointer
+               transition-all duration-200 active:scale-[0.98]"
+        [style.background]="mode === 'donor' ? '#A32D2D' : '#185FA5'"
+        [style.hover-background]="mode === 'donor' ? '#8f2626' : '#0C447C'">
+        <i [class]="mode === 'donor' ? 'fa-solid fa-qrcode text-sm' : 'fa-solid fa-scan text-sm'"></i>
+        {{ mode === 'donor' ? 'Process donor scan' : 'Process recipient scan' }}
+      </button>
+
+    </div>
+  </div>
+
 </section>

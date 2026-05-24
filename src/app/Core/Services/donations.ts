@@ -27,12 +27,7 @@ export class DonationsService {
       .set('PageNumber', pagination.currentPage.toString())
       .set('PageSize', pagination.pageSize.toString());
   
-    const url = `${this.BASE_URL}/api/admin/donations`;
-    console.log('🔍 Calling URL:', url);        // ← check this in console
-    console.log('🔍 BASE_URL:', this.BASE_URL); // ← confirm env is correct
-    console.log('🔍 Params:', params.toString());
-  
-    
+
     return this.http.get<PaginatedResponse<Donation>>(
       `${this.BASE_URL}/api/admin/donations`,  // ✅ was /api/hospital/donations
       { params }

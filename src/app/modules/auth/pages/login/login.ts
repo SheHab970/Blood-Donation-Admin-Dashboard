@@ -30,14 +30,14 @@ import { LoginRequest } from '../../../../Core/interface/api-models';
   styleUrl: './login.css',
 })
 export class Login {
-  private authService = inject(AuthService);
-  private router = inject(Router);
-  private formBuilder = inject(FormBuilder);
+  private authService    = inject(AuthService);
+  private router         = inject(Router);
+  private formBuilder    = inject(FormBuilder);
   private messageService = inject(MessageService);
 
   passwordVisibility = false;
-  isLoading = false;
-  userName = 'User'; // This should ideally come from the AuthService or a UserService after decoding the JWT token
+  isLoading          = false;
+
   loginForm = this.formBuilder.group({
     userName: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
@@ -52,22 +52,25 @@ export class Login {
     this.isLoading = true;
 
     const credentials: LoginRequest = {
-      Email: this.loginForm.value.userName!,
+      Email:    this.loginForm.value.userName!,
       Password: this.loginForm.value.password!,
     };
 
     this.authService.login(credentials).subscribe({
       next: () => {
         this.isLoading = false;
+
+        // ── Arm the proactive refresh timer right after login ──────────────
+        this.authService.scheduleTokenRefresh();
+
         this.messageService.add({
           severity: 'success',
-          summary: 'Welcome',
-          detail: 'Logged in successfully',
-          life: 2000,
+          summary:  'Welcome',
+          detail:   'Logged in successfully',
+          life:     2000,
         });
         this.router.navigate(['/dashboard/home']);
-        this.userName = this.authService.getFullName() || 'User'; // Update the userName after successful login
-        console.log('Login successful, navigating to dashboard...', this.userName);
+        console.log('Login successful, navigating to dashboard...');
       },
       error: (err) => {
         this.isLoading = false;
@@ -75,9 +78,9 @@ export class Login {
           err?.error?.message ?? 'Invalid email or password. Please try again.';
         this.messageService.add({
           severity: 'error',
-          summary: 'Login Failed',
+          summary:  'Login Failed',
           detail,
-          life: 4000,
+          life:     4000,
         });
       },
     });
@@ -87,7 +90,6 @@ export class Login {
     this.passwordVisibility = !this.passwordVisibility;
   }
 
-  // Convenience getters for template validation
   get emailInvalid(): boolean {
     const ctrl = this.loginForm.get('userName');
     return !!(ctrl?.invalid && ctrl?.touched);

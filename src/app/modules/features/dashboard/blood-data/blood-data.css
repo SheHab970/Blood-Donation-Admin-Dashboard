@@ -1,46 +1,46 @@
 th {
-    background-color: #fff !important;
-    color: #888780 !important;
-    text-align: center !important;
-    border: none;
-    font-size: 11px !important;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    padding: 12px !important;
-  }
-  
-  td {
-    background-color: #fff !important;
-    border-color: #f0ebe5 !important;
-    text-align: center !important;
-    font-size: 13px;
-    padding: 12px !important;
-    color: #444441 !important;
-  }
-  
-  p-table ::ng-deep .p-datatable-tbody > tr:hover > td {
-    background-color: #fdf9f7 !important;
-  }
-  
-  p-table ::ng-deep .p-paginator {
-    background-color: #fff !important;
-    border-top: 1px solid #f0ebe5;
-    padding: 10px;
-  }
-  
-  p-table ::ng-deep .p-paginator-page.p-paginator-page-selected {
-    background: #FCEBEB !important;
-    color: #A32D2D !important;
-    border-radius: 8px;
-  }
-  
-  p-table ::ng-deep .p-select { display: none; }
-  
-  p-table ::ng-deep .p-datatable-thead > tr > th {
-    background-color: #fff !important;
-  }
-  
-  p-table ::ng-deep .p-datatable-tbody > tr > td {
-    background-color: #fff !important;
-    color: #444441 !important;
-  }
+  background-color: #fff !important;
+  color: #888780 !important;
+  text-align: center !important;
+  border: none;
+  font-size: 11px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 12px !important;
+}
+
+td {
+  background-color: #fff !important;
+  border-color: #f0ebe5 !important;
+  text-align: center !important;
+  font-size: 13px;
+  padding: 12px !important;
+  color: #444441 !important;
+}
+
+p-table ::ng-deep .p-datatable-tbody > tr:hover > td {
+  background-color: #fdf9f7 !important;
+}
+
+p-table ::ng-deep .p-paginator {
+  background-color: #fff !important;
+  border-top: 1px solid #f0ebe5;
+  padding: 10px;
+}
+
+p-table ::ng-deep .p-paginator-page.p-paginator-page-selected {
+  background: #FCEBEB !important;
+  color: #A32D2D !important;
+  border-radius: 8px;
+}
+
+p-table ::ng-deep .p-select { display: none; }
+
+p-table ::ng-deep .p-datatable-thead > tr > th {
+  background-color: #fff !important;
+}
+
+p-table ::ng-deep .p-datatable-tbody > tr > td {
+  background-color: #fff !important;
+  color: #444441 !important;
+}

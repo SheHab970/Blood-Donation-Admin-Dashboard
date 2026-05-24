@@ -1,19 +1,35 @@
-.loader {
-    width: 20px;
-    height: 20px;
-    border: 3px solid #6a7282;
-    border-bottom-color: transparent;
-    border-radius: 50%;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-    }
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Fraunces:opsz,wght@9..144,500&display=swap');
 
-    @keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-    } 
+.page-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 22px;
+  color: #1a1917;
+}
+
+.scan-panel {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Animated scan lines */
+.scan-line-donor {
+  animation: scanMove 2s ease-in-out infinite;
+}
+
+.scan-line-recipient {
+  animation: scanMove 2s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+
+.page-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: #1a1917;
+  }
+
+@keyframes scanMove {
+  0%   { top: 10px; opacity: 0.8; }
+  50%  { opacity: 1; }
+  100% { top: calc(100% - 12px); opacity: 0.8; }
+}

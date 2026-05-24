@@ -1,30 +1,46 @@
-
-th{
-    background-color: transparent !important;
-    color: #6a7282 !important;
-    /* font-size: 18px; */
+th {
+    background-color: #fff !important;
+    color: #888780 !important;
     text-align: center !important;
     border: none;
-}
-td{
-    /* background-color: transparent !important; */
-    border-color: #e5e7eb !important;
+    font-size: 11px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 12px !important;
+  }
+  
+  td {
+    background-color: #fff !important;
+    border-color: #f0ebe5 !important;
     text-align: center !important;
-    color: var(--ParagraphColor);
-}
-
-.table-content tr:nth-child(odd){
-      background-color: #202020 !important;
-}
-p-table ::ng-deep .p-paginator-page.p-paginator-page-selected{
-        color: rgb(152, 149, 149) ;
-        background-color: #e5e7eb;
-}
-p-table ::ng-deep .p-select{
-    background-color: #1e2939;
-    display: none;
-}
-p-table ::ng-deep .p-paginator{
-      background-color: white;
-      margin-top: 20px;
-}
+    font-size: 13px;
+    padding: 12px !important;
+    color: #444441 !important;
+  }
+  
+  p-table ::ng-deep .p-datatable-thead > tr > th {
+    background-color: #fff !important;
+  }
+  
+  p-table ::ng-deep .p-datatable-tbody > tr > td {
+    background-color: #fff !important;
+    color: #444441 !important;
+  }
+  
+  p-table ::ng-deep .p-datatable-tbody > tr:hover > td {
+    background-color: #fdf9f7 !important;
+  }
+  
+  p-table ::ng-deep .p-paginator {
+    background-color: #fff !important;
+    border-top: 1px solid #f0ebe5;
+    padding: 10px;
+  }
+  
+  p-table ::ng-deep .p-paginator-page.p-paginator-page-selected {
+    background: #FCEBEB !important;
+    color: #A32D2D !important;
+    border-radius: 8px;
+  }
+  
+  p-table ::ng-deep .p-select { display: none; }

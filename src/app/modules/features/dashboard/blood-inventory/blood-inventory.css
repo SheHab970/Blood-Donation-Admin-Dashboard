@@ -1,13 +1,43 @@
-    th{
-      background-color: transparent !important;
-      color: #6a7282 !important;
-      /* font-size: 18px; */
-      text-align: center !important;
-      border: none;
-    }
-    td{
-      background-color: transparent !important;
-      border-color: #e5e7eb !important;
-      text-align: center !important;
-      color: var(--ParagraphColor);
-    }
+.page-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 22px;
+  color: #1a1917;
+}
+
+th {
+  background-color: #fff !important;
+  color: #888780 !important;
+  text-align: center !important;
+  border: none;
+  font-size: 10px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 12px !important;
+}
+
+td {
+  background-color: #fff !important;
+  border-color: #f9f7f5 !important;
+  text-align: center !important;
+  font-size: 13px;
+  padding: 12px !important;
+  color: #444441 !important;
+}
+
+p-table ::ng-deep .p-datatable-thead > tr > th {
+  background-color: #fff !important;
+}
+
+p-table ::ng-deep .p-datatable-tbody > tr > td {
+  background-color: #fff !important;
+  color: #444441 !important;
+}
+
+p-table ::ng-deep .p-datatable-tbody > tr:hover > td {
+  background-color: #fdf9f7 !important;
+}
+
+p-table ::ng-deep .p-dialog .p-dialog-header {
+  display: none;
+}

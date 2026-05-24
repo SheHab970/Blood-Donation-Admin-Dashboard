@@ -15,6 +15,8 @@ import { TagModule } from 'primeng/tag';
 })
 export class BloodInventory {
 
+  loading: boolean = false;
+  visible: boolean = false;
   // FAKE BLOOD_INVENTORY DATA
   bloodInventory = [
     { 
@@ -67,27 +69,35 @@ export class BloodInventory {
     },
   ]
 
-
-    getSeverity(status: string) {
-        switch (status) {
-            case 'AVAILABLE':
-                return 'success';
-            case 'LOW':
-                return 'warn';
-            case 'CRITICAL':
-                return 'danger';
-            default:
-                return 'secondary';
-
-        }
+  reloadData(): void {
+    this.loading = true;
+    // this.inventoryService.getInventory().subscribe(data => {
+    //   this.bloodInventory = data;
+    //   this.loading = false;
+    // });
+    setTimeout(() => this.loading = false, 800); // remove when API is ready
+  }
+  
+  saveBag(): void {
+    // this.inventoryService.addBag(this.newBag).subscribe(...)
+    this.visible = false;
+  }
+  
+  getSeverity(status: string): string {
+    switch (status) {
+      case 'Available': return 'success';
+      case 'Low Stock':  return 'warn';
+      case 'Critical':   return 'danger';
+      case 'Expired':    return 'secondary';
+      default:           return 'info';
     }
-
-    // DIALOG CONFIGURATION
-
-    visible: boolean = false;
-
+  }
     showDialog() {
         this.visible = true;
     }
+
+
+
+
 
 }

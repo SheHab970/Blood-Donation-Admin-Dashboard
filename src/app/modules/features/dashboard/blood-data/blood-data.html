@@ -42,7 +42,7 @@
             <i class="fa-solid fa-chart-bar" style="color:#3B6D11"></i>
           </div>
         </div>
-        <p class="stat-num">{{ averagePerDonation | number }} <span class="text-sm text-gray-400 font-normal">ml</span></p>
+        <p class="stat-num">{{ averagePerDonation | number }} <span class="text-sm text-gray-400 font-normal">Bag</span></p>
         <p class="stat-label">Average per donation</p>
         <div class="stat-bar">
           <div class="stat-bar-fill" style="width:46%;background:#639922"></div>
@@ -58,21 +58,18 @@
         <ng-template #header>
           <tr>
             <th>Donation ID</th>
-            <th>Donor ID</th>
             <th>Donor name</th>
             <th>Date</th>
-            <th>Time</th>
+            
             <th>Blood type</th>
-            <th>Quantity (ml)</th>
+            <th>Quantity (bag)</th>
           </tr>
         </ng-template>
         <ng-template #body let-blood>
           <tr class="cursor-pointer bg-gray-300">
-            <td class="font-medium text-gray-900!">R-{{ blood.donationId }}</td>
-            <td class="text-gray-400">{{ blood.donorId }}</td>
+            <td class="font-medium text-gray-900!">R-{{ blood.id }}</td>
             <td class="text-gray-700">{{ blood.donorName }}</td>
-            <td class="text-gray-400">{{ blood.date }}</td>
-            <td class="text-gray-400">{{ blood.time }}</td>
+            <td class="text-gray-400">{{ blood.createdAt | date:'short' }}</td>
             <td><span class="bt-pill">{{ blood.bloodType }}</span></td>
             <td class="text-gray-400">{{ blood.quantity }}</td>
           </tr>
