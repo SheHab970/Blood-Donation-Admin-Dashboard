@@ -1,94 +1,118 @@
 <p-toast position="top-right" />
 
-<section class="p-5 bg-gray-100">
+<section class="p-5 bg-[#f4f1ed]">
   <!-- HEADER -->
-  <div class="flex items-center justify-between">
+  <div class="flex items-start justify-between mb-5">
     <div>
-      <h1 class="text-2xl font-medium py-1.5">Verify Blood Requests</h1>
-      <p class="text-gray-500">Review and approve blood transfusion requests</p>
+      <h1 class="page-title">Verify blood requests</h1>
+      <p class="text-xs text-gray-400 mt-1">Review and approve blood transfusion requests</p>
     </div>
-    <div>
-      <button class="bg-red-500 cursor-pointer hover:bg-red-600 transition duration-300 py-2 px-4 rounded-lg text-white">
-        <i class="fa-solid fa-plus"></i>
-        <span class="ml-1">Add Blood Request</span>
-      </button>
-    </div>
+    <button class="btn-primary">
+      <i class="fa-solid fa-plus text-xs"></i>
+      Add Blood Request
+    </button>
   </div>
 
   <!-- SUMMARY CARDS -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-5">
-    <div class="bg-white p-6 rounded-lg shadow border border-gray-300">
-      <h2 class="text-lg font-medium text-gray-500">Total Requests</h2>
-      <p class="text-2xl py-2 font-bold">{{ totalRecords }}</p>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2.5 mb-3">
+
+    <div class="stat-card">
+      <div class="flex items-center justify-between mb-3">
+        <div class="stat-icon" style="background:#E6F1FB">
+          <i class="fa-solid fa-clipboard-list" style="color:#185FA5"></i>
+        </div>
+      </div>
+      <p class="stat-num">{{ totalRecords }}</p>
+      <p class="stat-label">Total requests</p>
+      <div class="stat-bar">
+        <div class="stat-bar-fill" style="width:100%;background:#378ADD"></div>
+      </div>
     </div>
-    <div class="bg-yellow-50 p-6 rounded-lg shadow border border-yellow-300">
-      <h2 class="text-lg font-medium text-yellow-600">Pending</h2>
-      <p class="text-2xl py-2 font-bold">{{ pendingCount }}</p>
+
+    <div class="stat-card">
+      <div class="flex items-center justify-between mb-3">
+        <div class="stat-icon" style="background:#FAEEDA">
+          <i class="fa-solid fa-clock" style="color:#B26A00"></i>
+        </div>
+      </div>
+      <p class="stat-num">{{ pendingCount }}</p>
+      <p class="stat-label">Pending</p>
+      <div class="stat-bar">
+        <div class="stat-bar-fill" style="width:45%;background:#C98A1E"></div>
+      </div>
     </div>
-    <div class="bg-red-50 p-6 rounded-lg shadow border border-red-300">
-      <h2 class="text-lg font-medium text-red-600">Emergency</h2>
-      <p class="text-2xl py-2 font-bold">{{ emergencyCount }}</p>
+
+    <div class="stat-card">
+      <div class="flex items-center justify-between mb-3">
+        <div class="stat-icon" style="background:#FCEBEB">
+          <i class="fa-solid fa-triangle-exclamation" style="color:#A32D2D"></i>
+        </div>
+      </div>
+      <p class="stat-num">{{ emergencyCount }}</p>
+      <p class="stat-label">Emergency</p>
+      <div class="stat-bar">
+        <div class="stat-bar-fill" style="width:30%;background:#A32D2D"></div>
+      </div>
     </div>
-    <div class="bg-green-50 p-6 rounded-lg shadow border border-green-300">
-      <h2 class="text-lg font-medium text-green-600">Completed / Approved</h2>
-      <p class="text-2xl py-2 font-bold">{{ completedCount }}</p>
+
+    <div class="stat-card">
+      <div class="flex items-center justify-between mb-3">
+        <div class="stat-icon" style="background:#EAF3DE">
+          <i class="fa-solid fa-circle-check" style="color:#3B6D11"></i>
+        </div>
+      </div>
+      <p class="stat-num">{{ completedCount }}</p>
+      <p class="stat-label">Completed / Approved</p>
+      <div class="stat-bar">
+        <div class="stat-bar-fill" style="width:70%;background:#639922"></div>
+      </div>
     </div>
+
   </div>
 
-  <!-- LOADING -->
-  @if (isLoading) {
-    <div class="flex justify-center items-center py-16">
-      <i class="fa-solid fa-spinner animate-spin text-3xl text-red-500"></i>
-    </div>
-  }
-
   <!-- TABLE -->
-  @if (!isLoading) {
-    <div class="mt-8 border border-gray-300 rounded-lg bg-white">
-      <p-table
-        [value]="requests"
-        [tableStyle]="{ 'min-width': '60rem' }"
-        [lazy]="true"
-        [paginator]="true"
-        [rows]="pageSize"
-        [totalRecords]="totalRecords"
-        [rowsPerPageOptions]="[5, 10, 20]"
-        (onPage)="onPageChange($event)"
-      >
-        <ng-template #header>
-          <tr class="bg-gray-200">
-            <th>REQUEST ID</th>
-            <th>PATIENT NAME</th>
-            <th>BLOOD TYPE</th>
-            <th>QUANTITY</th>
-            <th>REQUEST DATE</th>
-            <th>STATUS</th>
-          </tr>
-        </ng-template>
-        <ng-template #body let-request>
-          <tr class="bg-white! hover:bg-gray-100! transition! duration-300 ease-in-out cursor-pointer">
-            <td class="text-gray-800! font-bold">R-{{ request.id }}</td>
-            <td class="text-gray-600! font-medium">{{ request.patientName }}</td>
-            <td class="text-red-800! font-medium">
-              <div class="flex items-center justify-center">
-                <div class="bg-red-400/20 py-2 px-3 text-sm rounded-xl">
-                  {{ request.bloodType }}
-                </div>
-              </div>
-            </td>
-            <td class="text-gray-600! font-medium">{{ request.quantity }} Units</td>
-            <td class="text-gray-600! font-medium">{{ request.date }}</td>
-            <td>
-              <p-tag [value]="request.status" [severity]="getSeverity(request.status)" />
-            </td>
-          </tr>
-        </ng-template>
-        <ng-template #emptymessage>
-          <tr>
-            <td colspan="6" class="text-center py-8 text-gray-400">No requests found.</td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
-  }
+  <div class="data-table mt-3">
+    <p-table
+      [value]="requests"
+      [tableStyle]="{ 'min-width': '60rem' }"
+      [lazy]="true"
+      [loading]="isLoading"
+      [paginator]="true"
+      [rows]="pageSize"
+      [first]="first"
+      [totalRecords]="totalRecords"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      (onPage)="onPageChange($event)"
+    >
+      <ng-template #header>
+        <tr>
+          <th>REQUEST ID</th>
+          <th>PATIENT NAME</th>
+          <th>BLOOD TYPE</th>
+          <th>QUANTITY</th>
+          <th>REQUEST DATE</th>
+          <th>STATUS</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-request>
+        <tr class="cursor-pointer">
+          <td class="font-bold text-gray-900!">R-{{ request.id }}</td>
+          <td class="font-medium text-gray-700!">{{ request.patientName }}</td>
+          <td><span class="bt-pill">{{ request.bloodType }}</span></td>
+          <td class="text-gray-500!">{{ request.quantity }} Units</td>
+          <td class="text-gray-400!">{{ request.date }}</td>
+          <td>
+            <span class="status-pill" [ngClass]="getStatusClass(request.status)">
+              {{ request.status }}
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="6" class="text-center py-8 text-gray-400">No requests found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </section>

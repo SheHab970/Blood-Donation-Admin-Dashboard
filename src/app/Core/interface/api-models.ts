@@ -6,14 +6,14 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  accessToken:  string;
+  accessToken: string;
   refreshToken: string;
-  expiresIn:    number;
+  expiresIn: number;
   user: {
-    id:       string;
-    email:    string;
+    id: string;
+    email: string;
     fullName: string;
-    role:     string;
+    role: string;
   };
   message: string | null;
 }
@@ -23,9 +23,9 @@ export interface RefreshTokenRequest {
 }
 
 export interface RefreshTokenResponse {
-  accessToken:   string;
+  accessToken: string;
   refreshToken?: string;
-  expiresIn?:    number;
+  expiresIn?: number;
 }
 
 // ─── Pagination ───────────────────────────────────────────────────────────────
@@ -78,6 +78,7 @@ export interface UpdateHospitalRequest {
 }
 
 // ─── Hospital Admin ───────────────────────────────────────────────────────────
+
 
 export interface HospitalAdmin {
   id: string;
