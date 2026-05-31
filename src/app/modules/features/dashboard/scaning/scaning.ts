@@ -179,7 +179,6 @@ export class Scaning implements OnDestroy {
     return null;
   }
 
-  // ─── Cleanup ──────────────────────────────────────────────────────────────────────────
   ngOnDestroy(): void {
     this.scannerEnabled = false; // turn the camera light off when leaving the page
   }
