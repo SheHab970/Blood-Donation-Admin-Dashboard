@@ -26,58 +26,55 @@
 
         <!-- CHECK USER ROLE TO SHOW LINKS -->
 
-        @if (isHospAdmin) {
-          <li class="nav-link">
-            <a routerLinkActive="link-active" routerLink="home">
-              <i class="fa-solid fa-house-chimney icon"></i>
-              <span class="text nav-text">Dashboard</span>
-            </a>
-            <span class="title">Dashboard</span>
-          </li>
-          <li class="nav-link">
-            <a routerLinkActive="link-active" routerLink="users">
-              <i class="fa-sharp-duotone fa-solid fa-users icon"></i>
-              <span class="text nav-text">Manage Users</span>
-            </a>
-            <span class="title">Users</span>
-          </li>
-          <li class="nav-link">
-            <a routerLinkActive="link-active" routerLink="scanning">
-              <i class="fa-solid fa-qrcode icon"></i>
-              <span class="text nav-text text-red-300">Scan Doner QR</span>
-            </a>
-            <span class="title">ScanQR</span>
-          </li>
-          <li class="nav-link">
-            <a routerLinkActive="link-active" routerLink="blood-inventory">
-              <i class="fa-solid fa-droplet icon"></i>
-              <span class="text nav-text">Blood Inventory</span>
-            </a>
-            <span class="title">Inventory</span>
-          </li>
-          <li class="nav-link">
-            <a routerLink="requests" routerLinkActive="link-active">
-              <i class="fa-regular fa-file-lines icon"></i>
-              <span class="text nav-text">Requests</span>
-            </a>
-            <span class="title">Requests</span>
-          </li>
-          <li class="nav-link">
-            <a routerLinkActive="link-active" routerLink="blood-data">
-              <i class="fa-solid fa-database icon"></i>
-              <span class="text nav-text">Blood Data</span>
-            </a>
-            <span class="title">Data</span>
-          </li>
-          <li class="nav-link">
-            <a routerLinkActive="link-active" routerLink="predictions">
-              <i class="fa-solid fa-arrow-trend-up icon"></i>
-              <span class="text nav-text">AI Demand</span>
-            </a>
-            <span class="title">AI</span>
-          </li>
-
-        }
+        <li class="nav-link">
+          <a routerLinkActive="link-active" routerLink="home">
+            <i class="fa-solid fa-house-chimney icon"></i>
+            <span class="text nav-text">Dashboard</span>
+          </a>
+          <span class="title">Dashboard</span>
+        </li>
+        <li class="nav-link">
+          <a routerLinkActive="link-active" routerLink="users">
+            <i class="fa-sharp-duotone fa-solid fa-users icon"></i>
+            <span class="text nav-text">Manage Users</span>
+          </a>
+          <span class="title">Users</span>
+        </li>
+        <li class="nav-link">
+          <a routerLinkActive="link-active" routerLink="scanning">
+            <i class="fa-solid fa-qrcode icon"></i>
+            <span class="text nav-text text-red-300">Scan Doner QR</span>
+          </a>
+          <span class="title">ScanQR</span>
+        </li>
+        <li class="nav-link">
+          <a routerLinkActive="link-active" routerLink="blood-inventory">
+            <i class="fa-solid fa-droplet icon"></i>
+            <span class="text nav-text">Blood Inventory</span>
+          </a>
+          <span class="title">Inventory</span>
+        </li>
+        <li class="nav-link">
+          <a routerLink="requests" routerLinkActive="link-active">
+            <i class="fa-regular fa-file-lines icon"></i>
+            <span class="text nav-text">Requests</span>
+          </a>
+          <span class="title">Requests</span>
+        </li>
+        <li class="nav-link">
+          <a routerLinkActive="link-active" routerLink="blood-data">
+            <i class="fa-solid fa-database icon"></i>
+            <span class="text nav-text">Blood Data</span>
+          </a>
+          <span class="title">Data</span>
+        </li>
+        <li class="nav-link">
+          <a routerLinkActive="link-active" routerLink="predictions">
+            <i class="fa-solid fa-arrow-trend-up icon"></i>
+            <span class="text nav-text">AI Demand</span>
+          </a>
+          <span class="title">AI</span>
+        </li>
 
         @if (isAppAdmin) {
           <li class="nav-link">
