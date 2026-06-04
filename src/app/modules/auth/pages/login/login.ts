@@ -69,7 +69,12 @@ export class Login {
           detail:   'Logged in successfully',
           life:     2000,
         });
-        this.router.navigate(['/dashboard/home']);
+        if (this.authService.isAppAdmin()) {
+          this.router.navigate(['/dashboard/hospitals'])
+        }else{
+          
+          this.router.navigate(['/dashboard/home']);
+        }
         console.log('Login successful, navigating to dashboard...');
       },
       error: (err) => {
