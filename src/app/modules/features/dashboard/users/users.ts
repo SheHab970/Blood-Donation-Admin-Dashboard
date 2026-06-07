@@ -30,7 +30,7 @@ export class Users implements OnInit, OnDestroy {
 
   // Pagination state
   totalRecords = 0;
-  pageSize     = 10;
+  pageSize     = 8;
   currentPage  = 2;
   totalPages   = 0;
 

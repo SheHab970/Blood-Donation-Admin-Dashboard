@@ -28,7 +28,7 @@
   </div>
 
   <!-- TABLE -->
-  <div class="data-table">
+  <div class="data-table ps-3">
     <p-table 
     [value]="filteredUsers" 
     [tableStyle]="{'min-width':'60rem'}"
@@ -48,7 +48,6 @@
           <th>Last donation</th>
           <th>Points</th>
           <th>Status</th>
-          <th>Actions</th>
         </tr>
       </ng-template>
 
@@ -61,22 +60,20 @@
             </span>
           </td>
           <td class="text-gray-400!">{{ user.phoneNumber }}</td>
-          <td class="text-gray-400!">{{ user.lastDonation | date:'short' }}</td>
+          <td class="text-gray-400!">{{ user.lastDonation ? (user.lastDonation | date:'short') : 'Never Donated' }}</td>
           <td class="font-medium text-gray-700!">{{ user.points }}</td>
           <td>
             <span 
               [ngSwitch]="user.status"
               class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold">
               @switch (user.status) {
-                @case ('ACTIVE') {
-                  <span class="bg-green-50 text-green-700">
-                    <i class="fa-solid fa-check text-xs mr-1"></i>
+                @case ('Active') {
+                  <span class="bg-green-50 text-green-700 px-2 py-1 rounded-full text-xs">
                     Active
                   </span>
                 }
-                @case ('INACTIVE') {
-                  <span class="bg-red-50 text-red-700">
-                    <i class="fa-solid fa-x text-xs mr-1"></i>
+                @case ('Inactive') {
+                  <span class="bg-red-50 text-red-700 px-2 py-1 rounded-full text-xs">
                     Inactive
                   </span>
                 }
@@ -87,34 +84,6 @@
                 }
               }
             </span>
-          </td>
-          <td>
-            <div class="flex items-center justify-center gap-1.5">
-              <button 
-                class="w-7 h-7 rounded-lg border border-[#ede8e2] bg-white
-                       flex items-center justify-center cursor-pointer
-                       hover:bg-[#f4f1ed] transition-colors"
-                style="color:#185FA5"
-                title="View user details">
-                <i class="fa-regular fa-eye text-xs"></i>
-              </button>
-              <button 
-                class="w-7 h-7 rounded-lg border border-[#ede8e2] bg-white
-                       flex items-center justify-center cursor-pointer
-                       hover:bg-[#f4f1ed] transition-colors"
-                style="color:#3B6D11"
-                title="Approve donation">
-                <i class="fa-regular fa-circle-check text-xs"></i>
-              </button>
-              <button 
-                class="w-7 h-7 rounded-lg border border-[#ede8e2] bg-white
-                       flex items-center justify-center cursor-pointer
-                       hover:bg-[#f4f1ed] transition-colors"
-                style="color:#854F0B"
-                title="Give reward">
-                <i class="fa-solid fa-award text-xs"></i>
-              </button>
-            </div>
           </td>
         </tr>
       </ng-template>
