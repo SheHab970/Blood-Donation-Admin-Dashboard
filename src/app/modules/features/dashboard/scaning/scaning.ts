@@ -9,7 +9,7 @@ import { BarcodeFormat } from '@zxing/library';
 import { DonationsService } from '../../../../Core/Services/donations';
 import { RequestsService } from '../../../../Core/Services/requests';
 import { RewardsService } from '../../../../Core/Services/rewards';
-
+import { ChangeDetectorRef } from '@angular/core';
 import { QrScanResponse } from '../../../../Core/interface/api-models';
 
 interface ParsedQr {
@@ -44,7 +44,7 @@ export class Scaning implements OnDestroy {
   availableDevices: MediaDeviceInfo[] = [];
   selectedDevice?: MediaDeviceInfo;
   hasCamera       = true;
-
+  private cdr = inject(ChangeDetectorRef);
   // ─── Request lifecycle ────────────────────────────────────────────────────────
   processing = false;
   errorMsg   = '';
@@ -68,17 +68,35 @@ export class Scaning implements OnDestroy {
   onCamerasFound(devices: MediaDeviceInfo[]): void {
     this.availableDevices = devices;
     this.hasCamera        = devices.length > 0;
+  
     if (!this.selectedDevice && devices.length) {
       this.selectedDevice =
         devices.find((d) => /back|rear|environment/i.test(d.label)) ?? devices[0];
     }
+  
+    this.cdr.detectChanges();
   }
+
+
 
   onCamerasNotFound(): void { this.hasCamera = false; }
 
   onDeviceChange(deviceId: string): void {
-    this.selectedDevice = this.availableDevices.find((d) => d.deviceId === deviceId);
+    const next = this.availableDevices.find((d) => d.deviceId === deviceId);
+    if (!next || next.deviceId === this.selectedDevice?.deviceId) return; // ← guard
+    this.selectedDevice = next;
+    this.cdr.detectChanges();
   }
+
+
+  onPermissionResponse(permission: boolean): void {
+    if (!permission) {
+      this.hasCamera      = false;
+      this.scannerEnabled = false;
+    }
+    this.cdr.detectChanges();
+  }
+
 
   // ─── Scan entry points ────────────────────────────────────────────────────────
   onScanSuccess(text: string): void {
@@ -121,18 +139,24 @@ export class Scaning implements OnDestroy {
     });
   }
   private onResult(res: QrScanResponse): void {
-    this.lastScanned   = res.donorName  ?? 'Unknown';
-    this.lastBloodType = res.bloodType  ?? '—';
-
-    if (res.success) {
+    this.lastScanned   = res.donorName ?? res.userName ?? 'Unknown';
+    this.lastBloodType = res.bloodType ?? '—';
+  
+    // API has no `success` boolean — infer from message or status field
+    const isSuccess = res.success === true
+      || (typeof res.message === 'string' && /success/i.test(res.message))
+      || res.status === 'Used';
+  
+    if (isSuccess) {
       this.lastStatus      = this.mode === 'reward' ? 'Rewarded' : 'Processed';
       this.lastStatusClass = 's-approved';
+      this.errorMsg        = 'QR code scanned successfully.';          // ← clear any stale error
     } else {
       this.lastStatus      = 'Rejected';
       this.lastStatusClass = 's-emergency';
-      this.errorMsg        = res.message;
+      this.errorMsg        = res.message ?? 'Scan failed.';
     }
-
+  
     this.resetAfter();
   }
 

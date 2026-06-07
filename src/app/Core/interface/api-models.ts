@@ -206,10 +206,15 @@ export interface QrScanRequest {
 }
 
 export interface QrScanResponse {
-  success: boolean;
+  success?: boolean;
   message: string;
   donorName?: string;
+  userName?: string;       // ← reward API returns userName not donorName
   bloodType?: string;
+  status?: string;         // ← reward API returns status: "Used"
+  rewardTitle?: string;
+  rewardRedemptionId?: number;
+  usedAt?: string;
 }
 
 // ─── API Error ───────────────────────────────────────────────────────────────
