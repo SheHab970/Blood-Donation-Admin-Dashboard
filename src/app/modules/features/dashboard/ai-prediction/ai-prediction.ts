@@ -84,7 +84,7 @@ export class AiPrediction implements OnInit {
         data:            units,
         backgroundColor: bgs,
         borderColor:     bgs.map((c) => c + 'CC'),
-        borderWidth:     1,
+        borderWidth:     4,
         borderRadius:    6,
       }],
     };
@@ -93,7 +93,7 @@ export class AiPrediction implements OnInit {
       responsive:          true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: false },
+        legend: { display: true, labels: { color: textColor } },
         tooltip: {
           callbacks: {
             label: (ctx: any) => ` ${ctx.parsed.y} units`,
@@ -102,12 +102,12 @@ export class AiPrediction implements OnInit {
       },
       scales: {
         x: {
-          ticks: { color: '#A32D2D', font: { size: 13, weight: '600' } },
-          grid:  { display: false },
+          ticks: { color: '#A32D2D', font: { size: 12, weight: '600' } },
+          grid:  { display: true },
         },
         y: {
           beginAtZero: true,
-          ticks: { color: mutedColor, stepSize: 1 },
+          ticks: { color: mutedColor, stepSize: 2 },
           grid:  { color: '#f0ebe5' },
           title: { display: true, text: 'Units used', color: mutedColor, font: { size: 11 } },
         },
