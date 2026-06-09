@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { PredictionsResponse } from '../interface/api-models';
 
 export type UsagePeriod = '1day' | '7days' | '1month' | '3months' | '6months' | '1year';
 
@@ -32,6 +33,18 @@ export class BloodUsageService {
     const params = new HttpParams().set('period', period);
     return this.http.get<BloodUsageResponse>(
       `${this.BASE_URL}/api/hospital/blood-usage`,
+      { params }
+    );
+  }
+
+  /**
+   * GET /api/hospital/predictions?horizonDays=7
+   * Role: HospitalAdmin
+   */
+  getPredictions(horizonDays: number = 7): Observable<PredictionsResponse> {
+    const params = new HttpParams().set('horizonDays', horizonDays);
+    return this.http.get<PredictionsResponse>(
+      `${this.BASE_URL}/api/hospital/predictions`,
       { params }
     );
   }

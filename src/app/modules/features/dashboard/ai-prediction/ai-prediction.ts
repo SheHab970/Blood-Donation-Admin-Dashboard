@@ -7,6 +7,7 @@ import {
   BloodUsageResponse,
   UsagePeriod,
 } from '../../../../Core/Services/blood-usage';
+import { PredictionsResponse } from '../../../../Core/interface/api-models';
 
 const LABELS: Record<string, string> = {
   APositive:  'A+',  ANegative:  'A−',
@@ -20,6 +21,12 @@ const COLORS: string[] = [
   '#534AB7', '#993556', '#0891B2', '#D97706',
 ];
 
+interface HorizonOption {
+  label:       string;
+  horizonDays: number;
+  usagePeriod: UsagePeriod;
+}
+
 @Component({
   selector: 'app-ai-prediction',
   standalone: true,
@@ -30,19 +37,27 @@ const COLORS: string[] = [
 export class AiPrediction implements OnInit {
   private bloodUsageService = inject(BloodUsageService);
 
-  // Period filter state
-  selectedPeriod: UsagePeriod = '1month';
-  isLoading = false;
-
-  readonly periods: { label: string; value: UsagePeriod }[] = [
-    { label: '1 day',     value: '1day'    },
-    { label: '7 days',    value: '7days'   },
-    { label: '1 month',   value: '1month'  },
-    { label: '3 months',  value: '3months' },
-    { label: '6 months',  value: '6months' },
+  readonly periods: HorizonOption[] = [
+    { label: '7 Days',  horizonDays: 7,  usagePeriod: '7days'  },
+    { label: '14 Days', horizonDays: 14, usagePeriod: '1month' },
+    { label: '1 Month', horizonDays: 30, usagePeriod: '1month' },
   ];
 
-  // Exact variable names the HTML already binds to
+  selectedPeriod: HorizonOption = this.periods[0];
+
+  // Chart loading flags
+  isLoading           = false;
+  isPredictionLoading = false;
+
+  // Stat card skeleton flag
+  isStatsLoading = false;
+
+  // Stat card values
+  demandLevel        = '—';
+  totalExpectedUnits = 0;
+  overallAccuracy    = 0;
+
+  // Chart data
   data: any             = {};
   options: any          = {};
   barChart_data: any    = {};
@@ -50,33 +65,48 @@ export class AiPrediction implements OnInit {
 
   ngOnInit(): void {
     this.load();
+    this.loadPredictions();
   }
 
-  selectPeriod(p: UsagePeriod): void {
+  selectPeriod(p: HorizonOption): void {
     this.selectedPeriod = p;
     this.load();
+    this.loadPredictions();
   }
 
   private load(): void {
     this.isLoading = true;
-    this.bloodUsageService.getBloodUsage(this.selectedPeriod).subscribe({
-      next:  (res) => { this.buildCharts(res); this.isLoading = false; },
-      error: (err) => { console.error(err);    this.isLoading = false; },
+    this.bloodUsageService.getBloodUsage(this.selectedPeriod.usagePeriod).subscribe({
+      next:  (res) => { this.buildUsageChart(res); this.isLoading = false; },
+      error: (err) => { console.error(err);         this.isLoading = false; },
     });
   }
 
-  private buildCharts(res: BloodUsageResponse): void {
+  private loadPredictions(): void {
+    this.isPredictionLoading = true;
+    this.isStatsLoading      = true;
+    this.bloodUsageService.getPredictions(this.selectedPeriod.horizonDays).subscribe({
+      next: (res) => {
+        this.buildPredictionChart(res);
+        this.isPredictionLoading = false;
+        this.isStatsLoading      = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.isPredictionLoading = false;
+        this.isStatsLoading      = false;
+      },
+    });
+  }
+
+  private buildUsageChart(res: BloodUsageResponse): void {
     const mutedColor = '#9CA3AF';
     const textColor  = '#374151';
 
     const labels = res.bloodUsage.map((e) => LABELS[e.bloodType] ?? e.bloodType);
     const units  = res.bloodUsage.map((e) => e.usedUnits);
-    const pcts   = res.bloodUsage.map((e) => e.percentage);
     const bgs    = res.bloodUsage.map((_, i) => COLORS[i % COLORS.length]);
 
-    // ── "Line" chart — rendered as bar so all blood types show as columns,
-    //    not isolated dots. A true line needs multiple time points which
-    //    this single-snapshot API cannot provide.
     this.data = {
       labels,
       datasets: [{
@@ -113,18 +143,40 @@ export class AiPrediction implements OnInit {
         },
       },
     };
+  }
 
-    // ── Bar chart — percentage breakdown ─────────────────────────────────
+  private buildPredictionChart(res: PredictionsResponse): void {
+    const mutedColor = '#9CA3AF';
+    const textColor  = '#374151';
+
+    this.demandLevel        = res.demandLevel;
+    this.totalExpectedUnits = Math.round(res.totalExpectedUnits);
+    this.overallAccuracy    = Math.round(res.overallAccuracy);
+
+    const labels       = res.predictions.map((e) => e.bloodType);
+    const required     = res.predictions.map((e) => e.requiredUnits);
+    const currentStock = res.predictions.map((e) => e.currentStock);
+
     this.barChart_data = {
       labels,
-      datasets: [{
-        label:           'Usage %',
-        data:            pcts,
-        backgroundColor: '#A32D2D',
-        borderColor:     '#791F1F',
-        borderWidth:     1,
-        borderRadius:    6,
-      }],
+      datasets: [
+        {
+          label:           'Required units',
+          data:            required,
+          backgroundColor: '#A32D2D',
+          borderColor:     '#791F1F',
+          borderWidth:     1,
+          borderRadius:    6,
+        },
+        {
+          label:           'Current stock',
+          data:            currentStock,
+          backgroundColor: '#378ADD',
+          borderColor:     '#1D5FA8',
+          borderWidth:     1,
+          borderRadius:    6,
+        },
+      ],
     };
 
     this.barChart_options = {
@@ -133,7 +185,9 @@ export class AiPrediction implements OnInit {
       plugins: {
         legend: { labels: { color: textColor } },
         tooltip: {
-          callbacks: { label: (ctx: any) => ` ${ctx.parsed.y}%` },
+          callbacks: {
+            label: (ctx: any) => ` ${ctx.parsed.y} units`,
+          },
         },
       },
       scales: {
@@ -143,13 +197,9 @@ export class AiPrediction implements OnInit {
         },
         y: {
           beginAtZero: true,
-          max: 100,
-          ticks: {
-            color: mutedColor,
-            font:  { size: 14, weight: '500' },
-            callback: (v: any) => v + '%',
-          },
-          grid: { color: '#f0ebe5' },
+          ticks: { color: mutedColor, font: { size: 14, weight: '500' } },
+          grid:  { color: '#f0ebe5' },
+          title: { display: true, text: 'Units', color: mutedColor, font: { size: 11 } },
         },
       },
     };

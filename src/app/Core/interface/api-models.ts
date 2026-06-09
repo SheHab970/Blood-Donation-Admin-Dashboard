@@ -224,10 +224,24 @@ export interface QrScanResponse {
   usedAt?: string;
 }
 
-// ─── API Error ───────────────────────────────────────────────────────────────
+// ─── Blood Demand Predictions ────────────────────────────────────────────────
 
-export interface ApiError {
-  status: number;
-  message: string;
-  errors?: Record<string, string[]>;
+export interface PredictionEntry {
+  bloodType:        string;
+  currentStock:     number;
+  requiredUnits:    number;
+  daysOfCoverage:   number;
+  shortageExpected: boolean;
+  predictionMethod: string;
 }
+
+export interface PredictionsResponse {
+  horizonDays:         number;
+  demandLevel:         string;
+  totalExpectedUnits:  number;
+  totalUnitsRequired:  number;
+  overallAccuracy:     number;
+  predictions:         PredictionEntry[];
+}
+
+// ─── API Error ───────────────────────────────────────────────────────────────

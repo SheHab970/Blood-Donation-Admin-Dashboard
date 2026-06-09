@@ -9,6 +9,7 @@ import { DonationsService } from '../../../../Core/Services/donations';
 import { InventoryService } from '../../../../Core/Services/inventory';
 import { RewardsService }   from '../../../../Core/Services/rewards';
 import { AuthService }      from '../../../../Core/Services/auth';
+import { BloodUsageService } from '../../../../Core/Services/blood-usage';
 
 import { BloodRequest, BloodInventoryItem, Reward } from '../../../../Core/interface/api-models';
 
@@ -35,6 +36,7 @@ export class Home implements OnInit, OnDestroy {
   private donationsService = inject(DonationsService);
   private inventoryService = inject(InventoryService);
   private rewardsService   = inject(RewardsService);
+  private bloodUsageService = inject(BloodUsageService);
   readonly auth            = inject(AuthService);
 
   private destroy$ = new Subject<void>();
@@ -49,6 +51,12 @@ export class Home implements OnInit, OnDestroy {
   // ─── Blood type inventory (HospitalAdmin) ────────────────────────────────────
   bloodTypes:         BloodTypeRow[] = [];
   isLoadingInventory  = true;
+
+  // ─── AI Predictions (HospitalAdmin) ──────────────────────────────────────────
+  aiDemandLevel       = '—';
+  aiConfidence        = 0;
+  aiTotalExpected     = 0;
+  isAiLoading         = true;
 
   // ─── Rewards (AppAdmin) ───────────────────────────────────────────────────────
   rewards:            Reward[] = [];
@@ -75,8 +83,11 @@ export class Home implements OnInit, OnDestroy {
   // ─── Lifecycle ────────────────────────────────────────────────────────────────
   ngOnInit(): void {
     this.loadStats();
-    if (this.auth.isHospitalAdmin()) this.loadInventory();
-    if (this.auth.isAppAdmin())      this.loadRewards();
+    if (this.auth.isHospitalAdmin()) {
+      this.loadInventory();
+      this.loadPredictions();
+    }
+    if (this.auth.isAppAdmin()) this.loadRewards();
   }
 
   ngOnDestroy(): void {
@@ -147,6 +158,24 @@ export class Home implements OnInit, OnDestroy {
     const max = Math.max(...rows.map(r => r.quantity), 1);
     rows.forEach(r => r.barWidth = Math.round((r.quantity / max) * 100));
     return rows;
+  }
+
+  // ─── AI Predictions (HospitalAdmin only) ─────────────────────────────────────
+  private loadPredictions(): void {
+    this.bloodUsageService.getPredictions(7)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.aiDemandLevel   = res.demandLevel;
+          this.aiConfidence    = Math.round(res.overallAccuracy);
+          this.aiTotalExpected = Math.round(res.totalExpectedUnits);
+          this.isAiLoading     = false;
+        },
+        error: (err) => {
+          console.error('[Home] Failed to load predictions:', err);
+          this.isAiLoading = false;
+        },
+      });
   }
 
   // ─── Rewards (AppAdmin only) ──────────────────────────────────────────────────
