@@ -5,12 +5,13 @@ import { RouterModule } from '@angular/router';
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { BarcodeFormat } from '@zxing/library';
-
+import { MessageService } from 'primeng/api';
 import { DonationsService } from '../../../../Core/Services/donations';
 import { RequestsService } from '../../../../Core/Services/requests';
 import { RewardsService } from '../../../../Core/Services/rewards';
 import { ChangeDetectorRef } from '@angular/core';
 import { QrScanResponse } from '../../../../Core/interface/api-models';
+import { ToastModule } from 'primeng/toast';
 
 interface ParsedQr {
   id?: number;
@@ -20,7 +21,8 @@ interface ParsedQr {
 @Component({
   selector: 'app-scanning',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ZXingScannerModule],
+  imports: [CommonModule, FormsModule, RouterModule, ZXingScannerModule, ToastModule],
+  providers: [MessageService],
   templateUrl: './scaning.html',
   styleUrl: './scaning.css',
 })
@@ -28,6 +30,7 @@ export class Scaning implements OnDestroy {
   private donationsService = inject(DonationsService);
   private requestsService  = inject(RequestsService);
   private rewardsService   = inject(RewardsService);
+  private messageService = inject(MessageService);
 
   @ViewChild('qrInput') qrInput?: ElementRef<HTMLInputElement>;
 
@@ -134,6 +137,7 @@ export class Scaning implements OnDestroy {
       next:  (res) => this.onResult(res),
       error: (err) => {
         this.errorMsg = err?.error?.message ?? 'Scan failed. Please try again.';
+        this.messageService.add({ severity: 'error', summary: 'Error Occurred', detail: this.errorMsg ?? 'failed scan QR please try again', life: 4000 });
         this.resetAfter();
       },
     });
@@ -148,6 +152,11 @@ export class Scaning implements OnDestroy {
       || res.status === 'Used';
   
     if (isSuccess) {
+      console.log('scan success peeeeep')
+      // PLAY AUDIO
+      const audio = new Audio("assets/mp3/beep.mp3");
+      audio.play();
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'QR code scanned successfully.', life: 4000 });
       this.lastStatus      = this.mode === 'reward' ? 'Rewarded' : 'Processed';
       this.lastStatusClass = 's-approved';
       this.errorMsg        = 'QR code scanned successfully.';          // ← clear any stale error
@@ -155,6 +164,8 @@ export class Scaning implements OnDestroy {
       this.lastStatus      = 'Rejected';
       this.lastStatusClass = 's-emergency';
       this.errorMsg        = res.message ?? 'Scan failed.';
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.errorMsg ?? 'failed scan QR please try again', life: 4000 });
+      
     }
   
     this.resetAfter();
